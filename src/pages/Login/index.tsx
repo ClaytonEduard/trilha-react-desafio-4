@@ -20,13 +20,24 @@ const schema = yup
 const Login = () => {
   const {
     control,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isLoading },
   } = useForm<IFormLogin>({
     resolver: yupResolver(schema),
     mode: "onBlur",
     defaultValues,
     reValidateMode: "onChange",
   });
+  console.log(isValid);
+  let libera = false;
+  const isEnable = () => {
+    if (isValid == true) {
+      libera = true;
+      alert("Acesso liberado");
+    } else {
+      libera = false;
+      alert("Corrija os erros");
+    }
+  };
 
   return (
     <Container>
@@ -49,7 +60,12 @@ const Login = () => {
             errorMessage={errors?.password?.message}
           />
           <Spacing />
-          <Button title="Entrar" />
+          <Button
+            title="Entrar"
+            disable={!isValid}
+            type="submit"
+            onClick={isEnable}
+          />
         </Column>
       </LoginContainer>
     </Container>
